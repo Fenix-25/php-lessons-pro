@@ -8,7 +8,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
 $path = __DIR__ . "/../storage/urlNew.json";
 try {
 	$short = new UrlShort($path);
-	$short->setLink("https://phps.net");
+	$short->setLink("https://php.net");
 	$short->setLength(10);
 	$short->shorter();
 	$short->setCode("72fe95c557")->deShorter();
