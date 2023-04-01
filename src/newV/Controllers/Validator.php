@@ -2,7 +2,6 @@
 
 namespace NewV;
 
-
 use InvalidArgumentException;
 
 class Validator
