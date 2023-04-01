@@ -33,7 +33,7 @@ class Divider
 	{
 		self::divider();
 		foreach ($data as $key => $value) {
-			echo  $key . " => " . $value . "\n";
+			echo $key . " => " . $value . "\n";
 		}
 		self::divider();
 		echo "\n";

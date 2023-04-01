@@ -16,15 +16,11 @@ $logger->pushHandler(new StreamHandler($pathLogger, Level::Info));
 
 try {
 	$short = new UrlShort($pathUrl, $logger);
-	$short->setLink("https2://php.net");
 	$short->setLength(10);
-	$short->shorter();
+	$short->setLink("https://php.net")->encode();
 	$short->setCode("a40d98d379")->decode();
-//	$short->showUrls();
+	$short->showUrls();
 } catch (InvalidArgumentException $exception) {
 	new Divider('=', 19);
 	Divider::printString($exception->getMessage());
 }
-
-
-//прокинути логи

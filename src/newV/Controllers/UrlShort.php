@@ -42,13 +42,14 @@ class UrlShort
 	/**
 	 * @param string $link
 	 */
-	public function setLink(string $link): void
+	public function setLink(string $link): static
 	{
 		$this->logger->info('Set link for encode', ['link' => $link]);
 		$this->link = $link;
+		return $this;
 	}
 
-	public function shorter(): void
+	public function encode(): void
 	{
 		$this->urls = (new Files($this->filePath))->readJsonFile();
 		if (!(new Validator($this->link))->link()) {
@@ -62,7 +63,6 @@ class UrlShort
 		$this->urls[$code] = $this->link;
 		$this->logger->info('Save urls to file', ['file' => $this->filePath]);
 		(new Files($this->filePath))->saveToFile($this->urls);
-
 	}
 
 	public function showUrls(): void
@@ -82,9 +82,9 @@ class UrlShort
 
 	public function decode(): void
 	{
-		$this->logger->error('Decode code', ['code' => $this->code]);
+		$this->logger->info('Decode code', ['code' => $this->code]);
 		$res = (new Decode($this->code, $this->urls))->decode($this->code);
-		new Divider('=', 19);
+		new Divider('=', 60);
 		Divider::printString("Your code: {$this->code} equal: $res");
 	}
 }
