@@ -4,6 +4,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
 use NewV\Divider;
+use NewV\SameUrlShorter;
 use NewV\UrlShort;
 
 require_once __DIR__ . "/../vendor/autoload.php";
@@ -20,6 +21,8 @@ try {
 	$short->setLink("https://php.net")->encode();
 	$short->setCode("a40d98d379")->decode();
 	$short->showUrls();
+	$sameUrl = new SameUrlShorter($pathUrl, $logger);
+	$sameUrl->sameUrLShort("https://php.net");
 } catch (InvalidArgumentException $exception) {
 	new Divider('=', 19);
 	Divider::printString($exception->getMessage());
