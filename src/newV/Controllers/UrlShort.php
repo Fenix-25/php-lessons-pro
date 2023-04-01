@@ -16,7 +16,7 @@ class UrlShort
 	public function __construct($filePath, LoggerInterface $logger)
 	{
 		$this->filePath = $filePath;
-		$this->logger= $logger;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -25,6 +25,7 @@ class UrlShort
 	 */
 	public function setCode(string $code): static
 	{
+		$this->logger->info('Set code for decode', ['code' => $code]);
 		$this->code = $code;
 		return $this;
 	}
@@ -34,7 +35,7 @@ class UrlShort
 	 */
 	public function setLength(int $length): void
 	{
-		$this->logger->log('info','Set length of code');
+		$this->logger->info('Set length of code', ['length' => $length]);
 		$this->length = $length;
 	}
 
@@ -43,7 +44,7 @@ class UrlShort
 	 */
 	public function setLink(string $link): void
 	{
-		$this->logger->log('info','Set link for encode');
+		$this->logger->info('Set link for encode', ['link' => $link]);
 		$this->link = $link;
 	}
 
@@ -52,14 +53,14 @@ class UrlShort
 		$this->urls = (new Files($this->filePath))->readJsonFile();
 		if (!(new Validator($this->link))->link()) {
 			$msg = "Invalid Url";
-			$this->logger->log('error', $msg);
+			$this->logger->error($msg, ['url' => $this->link]);
 			throw new InvalidArgumentException($msg);
 		}
-		$this->logger->log('info','Encode url');
+		$this->logger->info('Encode url', ['url' => $this->link]);
 		$code = (new Encode())->encode($this->link);
 		$code = substr($code, 0, $this->length);
 		$this->urls[$code] = $this->link;
-		$this->logger->log('info','Save urls to file');
+		$this->logger->info('Save urls to file', ['file' => $this->filePath]);
 		(new Files($this->filePath))->saveToFile($this->urls);
 
 	}
@@ -75,13 +76,13 @@ class UrlShort
 	 */
 	public function getUrls(): array
 	{
-		$this->logger->log('error','Encode url');
+		$this->logger->error('Get Urls');
 		return $this->urls;
 	}
 
-	public function deShorter(): void
+	public function decode(): void
 	{
-		$this->logger->log('error','Decode url');
+		$this->logger->error('Decode code', ['code' => $this->code]);
 		$res = (new Decode($this->code, $this->urls))->decode($this->code);
 		new Divider('=', 19);
 		Divider::printString("Your code: {$this->code} equal: $res");
