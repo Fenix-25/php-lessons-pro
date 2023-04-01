@@ -2,18 +2,21 @@
 
 namespace NewV;
 
-
 use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
+
 
 class UrlShort
 {
 	protected string $filePath, $link, $code;
 	protected array $urls;
 	protected int $length;
+	protected LoggerInterface $logger;
 
-	public function __construct($filePath)
+	public function __construct($filePath, LoggerInterface $logger)
 	{
 		$this->filePath = $filePath;
+		$this->logger= $logger;
 	}
 
 	/**
@@ -31,6 +34,7 @@ class UrlShort
 	 */
 	public function setLength(int $length): void
 	{
+		$this->logger->log('info','Set length of code');
 		$this->length = $length;
 	}
 
@@ -39,6 +43,7 @@ class UrlShort
 	 */
 	public function setLink(string $link): void
 	{
+		$this->logger->log('info','Set link for encode');
 		$this->link = $link;
 	}
 
@@ -46,21 +51,23 @@ class UrlShort
 	{
 		$this->urls = (new Files($this->filePath))->readJsonFile();
 		if (!(new Validator($this->link))->link()) {
-			throw new InvalidArgumentException('Invalid Url');
+			$msg = "Invalid Url";
+			$this->logger->log('error', $msg);
+			throw new InvalidArgumentException($msg);
 		}
+		$this->logger->log('info','Encode url');
 		$code = (new Encode())->encode($this->link);
 		$code = substr($code, 0, $this->length);
 		$this->urls[$code] = $this->link;
+		$this->logger->log('info','Save urls to file');
 		(new Files($this->filePath))->saveToFile($this->urls);
-		if (!empty($this->urls)) {
-			$this->showUrls();
-		}
+
 	}
 
-	protected function showUrls(): void
+	public function showUrls(): void
 	{
 		new Divider('=', 32);
-
+		Divider::printArray($this->getUrls());
 	}
 
 	/**
@@ -68,13 +75,15 @@ class UrlShort
 	 */
 	public function getUrls(): array
 	{
+		$this->logger->log('error','Encode url');
 		return $this->urls;
 	}
 
 	public function deShorter(): void
 	{
+		$this->logger->log('error','Decode url');
 		$res = (new Decode($this->code, $this->urls))->decode($this->code);
 		new Divider('=', 19);
-		Divider::printResult("Your code: {$this->code} equal: $res");
+		Divider::printString("Your code: {$this->code} equal: $res");
 	}
 }

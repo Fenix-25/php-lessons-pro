@@ -13,10 +13,10 @@ class Divider
 		self::$length = $length;
 	}
 
-	public static function printResult($result): void
+	public static function printString(string $string): void
 	{
 		self::divider();
-		echo "\n" . $result . "\n";
+		echo $string . "\n";
 		self::divider();
 		echo "\n";
 	}
@@ -26,5 +26,16 @@ class Divider
 		for ($i = 0; $i < self::$length; $i++) {
 			echo self::$symbol;
 		}
+		echo "\n";
+	}
+
+	public static function printArray(array $data): void
+	{
+		self::divider();
+		foreach ($data as $key => $value) {
+			echo  $key . " => " . $value . "\n";
+		}
+		self::divider();
+		echo "\n";
 	}
 }

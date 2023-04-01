@@ -1,20 +1,30 @@
 <?php
 
+use Monolog\Handler\StreamHandler;
+use Monolog\Level;
+use Monolog\Logger;
 use NewV\Divider;
 use NewV\UrlShort;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
-$path = __DIR__ . "/../storage/urlNew.json";
+$pathUrl = __DIR__ . "/../storage/urlNew.json";
+$pathLogger = __DIR__ . "/../storage/newLogger.log";
+
+$logger = new Logger('new_url_shorter');
+$logger->pushHandler(new StreamHandler($pathLogger, Level::Info));
+
 try {
-	$short = new UrlShort($path);
+	$short = new UrlShort($pathUrl, $logger);
 	$short->setLink("https://php.net");
 	$short->setLength(10);
 	$short->shorter();
-	$short->setCode("72fe95c557")->deShorter();
+	$short->setCode("a40d98d379")->deShorter();
+//	$short->showUrls();
 } catch (InvalidArgumentException $exception) {
 	new Divider('=', 19);
-	Divider::printResult($exception->getMessage());
+	Divider::printString($exception->getMessage());
 }
+
 
 //прокинути логи
