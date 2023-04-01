@@ -9,7 +9,7 @@ class Divider
 
 	public function __construct($symbol, $length)
 	{
-		self::$symbol =$symbol;
+		self::$symbol = $symbol;
 		self::$length = $length;
 	}
 

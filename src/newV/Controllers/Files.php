@@ -9,10 +9,11 @@ class Files implements FilesInterface
 {
 	protected string $filePath;
 	protected array $dataArray;
-public function __construct($path)
-{
-	$this->filePath = $path;
-}
+
+	public function __construct($path)
+	{
+		$this->filePath = $path;
+	}
 
 	public function readJsonFile(): array
 	{
@@ -26,7 +27,7 @@ public function __construct($path)
 
 	public function saveToFile($data): void
 	{
-		if (!empty($data)){
+		if (!empty($data)) {
 			$data = json_encode($data, JSON_PRETTY_PRINT);
 			file_put_contents($this->filePath, $data);
 		}

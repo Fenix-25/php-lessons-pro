@@ -12,6 +12,7 @@ class Encode implements IUrlEncoder
 	 */
 	public function encode(string $url): string
 	{
+		//select type for gen
 		return md5(sha1($url));
 	}
 }

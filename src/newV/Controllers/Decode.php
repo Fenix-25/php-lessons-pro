@@ -7,12 +7,12 @@ use NewV\Interface\IUrlDecoder;
 class Decode implements IUrlDecoder
 {
 	protected string $code;
-	protected array$urls;
+	protected array $urls;
 
 	public function __construct($code, $urls)
 	{
 		$this->code = $code;
-		$this->urls= $urls;
+		$this->urls = $urls;
 	}
 
 	public function decode(string $code): string

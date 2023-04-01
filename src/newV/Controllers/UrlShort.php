@@ -7,11 +7,9 @@ use InvalidArgumentException;
 
 class UrlShort
 {
-	protected string $filePath;
-	protected string $link;
+	protected string $filePath, $link, $code;
 	protected array $urls;
 	protected int $length;
-	protected string $code;
 
 	public function __construct($filePath)
 	{
@@ -61,7 +59,8 @@ class UrlShort
 
 	protected function showUrls(): void
 	{
-		d($this->getUrls());
+		new Divider('=', 32);
+
 	}
 
 	/**
@@ -74,7 +73,7 @@ class UrlShort
 
 	public function deShorter(): void
 	{
-		$res =  (new Decode($this->code, $this->urls))->decode($this->code);
+		$res = (new Decode($this->code, $this->urls))->decode($this->code);
 		new Divider('=', 19);
 		Divider::printResult("Your code: {$this->code} equal: $res");
 	}

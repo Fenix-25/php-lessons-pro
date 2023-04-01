@@ -16,3 +16,5 @@ try {
 	new Divider('=', 19);
 	Divider::printResult($exception->getMessage());
 }
+
+//прокинути логи

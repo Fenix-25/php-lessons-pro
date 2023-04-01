@@ -11,6 +11,7 @@ class Validator
 
 	public function __construct(string $link)
 	{
+		//delete all spaces
 		self::$link = trim($link);
 	}
 
