@@ -41,6 +41,7 @@ class UrlShort
 
 	/**
 	 * @param string $link
+	 * @return UrlShort
 	 */
 	public function setLink(string $link): static
 	{
