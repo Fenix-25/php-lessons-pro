@@ -47,17 +47,18 @@ class UrlShort
 	{
 		$this->logger->info('Set link for encode', ['link' => $link]);
 		$this->link = $link;
+		if (!(new Validator($this->link))->link()) {
+			$msg = "Invalid Url";
+			$this->logger->error($msg, ['url' => $this->link]);
+			throw new InvalidArgumentException($msg);
+		}
 		return $this;
 	}
 
 	public function encode(): void
 	{
 		$this->urls = (new Files($this->filePath))->readJsonFile();
-		if (!(new Validator($this->link))->link()) {
-			$msg = "Invalid Url";
-			$this->logger->error($msg, ['url' => $this->link]);
-			throw new InvalidArgumentException($msg);
-		}
+
 		$this->logger->info('Encode url', ['url' => $this->link]);
 		$code = (new Encode())->encode($this->link);
 		$code = substr($code, 0, $this->length);

@@ -17,8 +17,8 @@ $logger->pushHandler(new StreamHandler($pathLogger, Level::Info));
 try {
 	$short = new UrlShort($pathUrl, $logger);
 	$short->setLength(10);
-	$short->setLink("https://php.net")->encode();
-	$short->setCode("a40d98d379")->decode();
+	$short->setLink("https://google.com")->encode();
+	$short->setCode("ac405aa6be")->decode();
 	$short->showUrls();
 } catch (InvalidArgumentException $exception) {
 	new Divider('=', 19);
