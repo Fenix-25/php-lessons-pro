@@ -57,12 +57,16 @@ class UrlShort
 
 	public function encode(): void
 	{
-		$this->urls = (new Files($this->filePath))->readJsonFile();
+		$this->urls = (new Files($this->filePath))->readFile();
+
 		$this->logger->info('Encode url', ['url' => $this->link]);
+
 		$code = (new Encode())->encode($this->link);
 		$code = substr($code, 0, $this->length);
 		$this->urls[$code] = $this->link;
+
 		$this->logger->info('Save urls to file', ['file' => $this->filePath]);
+
 		(new Files($this->filePath))->saveToFile($this->urls);
 	}
 

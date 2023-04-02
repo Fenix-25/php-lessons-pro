@@ -11,7 +11,7 @@ interface FilesInterface
 	 * @throws InvalidArgumentException
 	 * @return array
 	 */
-	public function readJsonFile():array;
+	public function readFile():array;
 
 	/**
 	 * @array $data

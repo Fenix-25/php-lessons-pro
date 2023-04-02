@@ -15,7 +15,7 @@ class Files implements FilesInterface
 		$this->filePath = $path;
 	}
 
-	public function readJsonFile(): array
+	public function readFile(): array
 	{
 		if (!file_exists($this->filePath)) {
 			file_put_contents($this->filePath, '');
