@@ -6,6 +6,7 @@ use DiggPHP\Psr11\NotFoundException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use ReflectionClass;
 use ReflectionException;
 
 class Container implements ContainerInterface
@@ -34,7 +35,8 @@ class Container implements ContainerInterface
 	 */
 	public function get($id)
 	{
-			return  $this->prepare($id);
+			return  $this->prepare($id) ??
+				throw new NotFoundException("Class {$id} not found!");
 	}
 
 	public function has($id): bool
@@ -49,22 +51,21 @@ class Container implements ContainerInterface
 	 */
 	protected function prepare(string $id)
 	{
-		$arguments = [];
-		$refClass = new \ReflectionClass($id);
-		$refConstruct = $refClass->getConstructor();
-		$this->isEmptyArgOrParam($refConstruct, fn () => new $id);
-		$refArgument = $refConstruct->getParameters();
-		foreach ($refArgument as $argument)
-		{
+		$classReflector = new ReflectionClass($id);
+		$constructReflector = $classReflector->getConstructor();
+		$this->isEmptyArgOrParam($constructReflector, fn () => new $id);
+		$arguments = $constructReflector->getParameters();
+		$this->isEmptyArgOrParam($arguments, fn () => new $id);
+		$arg = [];
+		foreach ($arguments as $argument) {
 			$argumentType = $argument->getType()->getName();
 			$denied = ['array', 'string', 'int'];
-			if(in_array($argumentType, $denied))
-			{
+			if (in_array($argumentType, $denied)) {
 				break;
 			}
-			$arguments[$argument->getName()] = $this->get($argumentType);;
+			$arg[$argument->getName()] = $this->get($argumentType);
 		}
-		return new $id(...$arguments);
+		return new $id(...$arg);
 	}
 
 	protected function isEmptyArgOrParam($condition, $callback)

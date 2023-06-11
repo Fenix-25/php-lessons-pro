@@ -4,7 +4,7 @@ namespace Bisix21\src\UrlShort;
 
 use Bisix21\src\UrlShort\Entity\Short;
 use Bisix21\src\UrlShort\Interface\IUrlDecoder;
-use Bisix21\src\UrlShort\Models\UrlShort;
+use Bisix21\src\UrlShort\ORM\Models\UrlShort;
 use Bisix21\src\UrlShort\Repository\Files;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\NotSupported;

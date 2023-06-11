@@ -2,17 +2,19 @@
 
 namespace Bisix21\src\UrlShort\Repository;
 
+use Bisix21\src\Core\Config;
 use Bisix21\src\UrlShort\Interface\DBInterface;
 use InvalidArgumentException;
 
 class Files implements DBInterface
 {
 	protected array $dataArray;
+	protected string $pathUrls;
 
 	public function __construct(
-		protected string $pathUrls
 	)
 	{
+		$this->pathUrls = Config::instance()->get('config.urls');
 		$this->dataArray = $this->getData();
 	}
 
