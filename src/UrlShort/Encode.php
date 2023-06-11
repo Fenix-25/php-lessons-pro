@@ -3,6 +3,7 @@
 namespace Bisix21\src\UrlShort;
 
 
+use Bisix21\src\Core\Config;
 use Bisix21\src\UrlShort\Interface\IUrlEncoder;
 
 class Encode implements IUrlEncoder
@@ -10,9 +11,9 @@ class Encode implements IUrlEncoder
 
 	private int $length;
 
-	public function __construct(int $length)
+	public function __construct()
 	{
-		$this->length = $length;
+		$this->length = Config::instance()->get('config.length');
 	}
 
 	/**

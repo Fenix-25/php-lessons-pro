@@ -2,18 +2,21 @@
 
 namespace Bisix21\src\UrlShort\Services;
 
+
+use Bisix21\src\Core\Config;
 use Bisix21\src\UrlShort\ORM\Models\UrlShort;
 use InvalidArgumentException;
 
 class Validator
 {
 	protected bool $status = true;
+	protected array $allCommands;
 
 	public function __construct(
-		protected array    $allCommands,
-		protected UrlShort $short
+		protected UrlShort $short,
 	)
 	{
+		$this->allCommands = Config::instance()->get('commands');
 	}
 
 	public function link($link): bool|int

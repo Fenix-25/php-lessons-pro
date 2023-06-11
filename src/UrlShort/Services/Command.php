@@ -5,6 +5,7 @@ namespace Bisix21\src\UrlShort\Services;
 use Bisix21\src\Core\DI\Container;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use ReflectionException;
 
 class Command
 {
@@ -16,7 +17,7 @@ class Command
 
 	/**
 	 * @throws ContainerExceptionInterface
-	 * @throws NotFoundExceptionInterface
+	 * @throws NotFoundExceptionInterface|ReflectionException
 	 */
 	public function run($givenCommand): void
 	{

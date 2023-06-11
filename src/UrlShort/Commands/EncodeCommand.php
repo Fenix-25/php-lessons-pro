@@ -4,25 +4,27 @@ namespace Bisix21\src\UrlShort\Commands;
 
 use Bisix21\src\UrlShort\Encode;
 use Bisix21\src\UrlShort\Interface\CommandInterface;
-use Bisix21\src\UrlShort\Repository\AR;
 use Bisix21\src\UrlShort\Repository\DM;
-use Bisix21\src\UrlShort\Repository\Files;
-use Bisix21\src\UrlShort\Services\Printer;
 use Bisix21\src\UrlShort\Services\Converter;
+use Bisix21\src\UrlShort\Services\Printer;
 use Bisix21\src\UrlShort\Services\Validator;
+use Doctrine\ORM\Exception\ORMException;
 
 class EncodeCommand implements CommandInterface
 {
 
 	public function __construct(
-		protected Encode      $encode,
-		protected Converter   $arguments,
-		protected DM|AR|Files $record,
-		protected Validator   $validator
+		protected DM        $record,
+		protected Encode    $encode,
+		protected Converter $arguments,
+		protected Validator $validator
 	)
 	{
 	}
 
+	/**
+	 * @throws ORMException
+	 */
 	public function runAction(): void
 	{
 		//валідує лінк
@@ -31,6 +33,9 @@ class EncodeCommand implements CommandInterface
 		$this->saveAndPrint();
 	}
 
+	/**
+	 * @throws ORMException
+	 */
 	protected function saveAndPrint()
 	{
 		$codeShort = $this->createArr($this->encode->encode($this->arguments->getArguments()), $this->arguments->getArguments());

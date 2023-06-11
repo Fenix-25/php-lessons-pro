@@ -2,14 +2,17 @@
 
 namespace Bisix21\src\UrlShort\ORM;
 
+use Bisix21\src\Core\Config;
 use Illuminate\Database\Capsule\Manager;
 
 class ActiveRecord
 {
+	public array $configDbConnection;
+
 	public function __construct(
-		public array $configDbConnection,
 	)
 	{
+		$this->configDbConnection = Config::instance()->get('config.db_connection.active_record');
 		$this->connectToDB();
 	}
 
